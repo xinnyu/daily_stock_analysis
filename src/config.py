@@ -71,7 +71,8 @@ class Config:
     
     # Telegram 配置（需要同时配置 Bot Token 和 Chat ID）
     telegram_bot_token: Optional[str] = None  # Bot Token（@BotFather 获取）
-    telegram_chat_id: Optional[str] = None  # Chat ID
+    telegram_chat_id: Optional[str] = None  # Chat ID（群聊一般是 -100...）
+    telegram_message_thread_id: Optional[int] = None  # 论坛群 Topics 的 thread id（可选）
     
     # 邮件配置（只需邮箱和授权码，SMTP 自动识别）
     email_sender: Optional[str] = None  # 发件人邮箱
@@ -319,6 +320,10 @@ class Config:
             feishu_webhook_url=os.getenv('FEISHU_WEBHOOK_URL'),
             telegram_bot_token=os.getenv('TELEGRAM_BOT_TOKEN'),
             telegram_chat_id=os.getenv('TELEGRAM_CHAT_ID'),
+            telegram_message_thread_id=(
+                int(os.getenv('TELEGRAM_MESSAGE_THREAD_ID'))
+                if (os.getenv('TELEGRAM_MESSAGE_THREAD_ID') or '').strip() else None
+            ),
             email_sender=os.getenv('EMAIL_SENDER'),
             email_password=os.getenv('EMAIL_PASSWORD'),
             email_receivers=[r.strip() for r in os.getenv('EMAIL_RECEIVERS', '').split(',') if r.strip()],
